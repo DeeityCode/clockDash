@@ -1,0 +1,1064 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Business Hours Dashboard</title>
+	<link rel="icon" href="https://i.imgur.com/zRXy99N.png" type="image/png">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+	
+    <style>
+     @import url('https://fonts.googleapis.com/css2?family=Rubik:wght@300;400;500&display=swap');    
+		:root {
+    --bg-shape-color: linear-gradient(120deg, #343A4F, #0F1620);
+}
+
+
+		
+		body {
+            font-family: Monterrat, sans-serif;
+            background-color: #f4f4f4;
+            margin: 0;
+            padding: 20px;
+			background-image: linear-gradient(90deg, #414850, #131720);
+        }
+		
+		h1{
+		color:white;
+		font-family: 'Rubik', sans-serif;
+		}
+		
+		h2 {
+		position: absolute;
+		font-size:20px;
+		left: 50%;
+		top: 30%;
+		transform: translateX(-50%); /* Offset by half of its width */
+		z-index:1;
+		position: absolute;
+    color: white; /* Set text color to white */
+    text-shadow: 1px 1px 0 gray, -1px -1px 0 gray, 1px -1px 0 gray, -1px 1px 0 gray; /* Create a black border effect */
+}
+
+        .container {
+            max-width: 90%;
+            margin: auto;
+			
+        }
+
+        .form-section {
+            margin-bottom: 20px;
+        }
+
+        .dashboard {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr); /* Default to 3 columns */
+    gap: 40px;
+    padding: 30px;
+    max-width: 100%; /* Ensure it doesn't exceed the width of the container */   
+}
+
+
+#gridLayout {
+    position: absolute;            /* Position it absolutely */
+    top: 40px;                     /* Adjust as needed */
+    right: 150px;                  /* Adjust as needed */
+    width: 120px;                  /* Set width */
+    z-index: 10;                   /* Ensure it appears above other elements */
+    background-color: #333;        /* Dark gray background */
+    color: #fff;                   /* White text color for contrast */
+    border-radius: 8px;            /* Rounded corners */
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.3); /* Shadow for raised effect */
+    padding: 10px 10px;               /* Vertical padding for content spacing */
+    transition: opacity 0.3s ease, visibility 0.3s ease; /* Smooth transition */
+}
+
+
+
+
+.delete-button,
+.edit-button {
+position: absolute;
+            top: 10px;
+            right: 10px;
+    width: 25px; /* Set a fixed width */
+    height: 25px; /* Set a fixed height */
+    border: none; /* Remove default border */
+    border-radius: 20%; /* Make it circular */
+    cursor: pointer; /* Change cursor to pointer */
+    font-size: 12px; /* Set font size for icons */
+	padding: -5px -5px -5px -5px;
+	box-shadow: 0 4px 8px rgba(0, 0, 0, 0.3);transition: background-color 0.3s, transform 0.2s, box-shadow 0.2s; /* Smooth transitions */
+}
+
+.delete-button:hover,
+.edit-button:hover {
+    background-color: lightGray;        /* Lighter gray on hover */
+    transform: translateY(-2px);   /* Slightly raise the button on hover */
+    box-shadow: 0 6px 12px rgba(0, 0, 0, 0.4); /* Stronger shadow on hover */
+}
+
+.delete-button:active,
+.edit-button:active {
+    background-color: #333;        /* Even darker gray on click */
+    transform: translateY(1px);    /* Slightly lower when clicked */
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.3); /* Subtle shadow on active state */
+}
+
+.delete-button {
+    background: red; /* Background color for delete button */
+	
+}
+
+.edit-button {
+    background: orange; /* Background color for edit button */
+	right: 40px;
+}
+
+        .analog-clock {
+    width: 120px; /* Increase size for better visibility */
+    height: 120px;
+    border: 10px solid #4A4A4A; /* Darker border for a modern look */
+    border-radius: 50%;
+    position: relative;
+    margin: 10px auto;
+    background: radial-gradient(circle, #ffffff 60%, #e0e0e0 100%); /* Gradient background */
+    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2); /* Subtle shadow */
+}
+
+.number {
+    position: absolute;
+    font-size: 16px; /* Adjust font size as needed */
+    color: white; /* Set text color to white */
+    text-align: center; /* Center the text */
+    text-shadow: 1px 1px 0 gray, -1px -1px 0 gray, 1px -1px 0 gray, -1px 1px 0 gray; /* Create a black border effect */
+}
+
+#number-12 {
+    top: 5%; /* Position at the top */
+    left: 50%;
+    transform: translate(-50%, -10%); /* Center horizontally */
+}
+
+#number-3 {
+    top: 50%;
+    right: 5%; /* Position at the right */
+    transform: translate(10%, -50%); /* Center vertically */
+}
+
+#number-6 {
+    bottom: 5%; /* Position at the bottom */
+    left: 50%;
+    transform: translate(-50%, 10%); /* Center horizontally */
+}
+
+#number-9 {
+    top: 50%;
+    left: 5%; /* Position at the left */
+    transform: translate(-10%, -50%); /* Center vertically */
+}
+
+.analog-clock .hour,
+.analog-clock .minute {
+    position: absolute;
+    background: #4A4A4A; /* Modern dark color for hands */
+    border-radius: 10px; /* Rounded edges for hands */
+    transform-origin: bottom;
+}
+
+.hour {
+    width: 6px; /* Slightly thicker hour hand */
+    height: 35%; /* Adjust height for better proportion */
+    bottom: 50%;
+    left: 50%;
+    transform: translateX(-50%);
+	z-index:2;
+}
+
+.minute {
+    width: 4px; /* Slightly thicker minute hand */
+    height: 45%; /* Adjust height for better proportion */
+    bottom: 50%;
+    left: 50%;
+    transform: translateX(-50%);
+	z-index:2;
+}
+
+/* Center dot */
+.analog-clock::after {
+    content: '';
+    position: absolute;
+    width: 12px; /* Size of the center dot */
+    height: 12px;
+    background: #4A4A4A; /* Same color as hands */
+    border-radius: 50%; /* Make it circular */
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%); /* Center it */
+}
+
+        .digital-clock {
+        text-align: center;
+        font-size: 2em; /* Adjust font size as needed */
+        color: white; /* Change color to match your theme */
+        background: rgba(0, 0, 0, 0.7); /* Semi-transparent background */
+        padding: 10px;
+        border-radius: 5px;
+        margin-top: 10px; /* Add some space above */
+    }
+
+        label {
+            display: block;
+            margin: 10px 0 5px;
+        }
+
+        #floatingForm {
+    position: fixed;                /* Fix the position to the bottom-right corner */
+    width: 280px;                   /* Adjust the width (10% can be too narrow, set a fixed width) */
+    bottom: 20px;                   /* Position it 20px from the bottom */
+    right: 20px;                    /* Position it 20px from the right */
+    background-color: #333;         /* Dark gray background */
+    color: white;                   /* White text color for contrast */
+    padding: 20px;                  /* Padding for inner spacing */
+    border-radius: 12px;            /* More rounded corners for a modern look */
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.3); /* Shadow for a raised effect */
+    display: none;                  /* Initially hidden */
+}
+
+#toggleFormButton {
+    position: fixed;              /* Fixed position at the bottom-right */
+    bottom: 20px;                 /* Distance from the bottom */
+    right: 20px;                  /* Distance from the right */
+    background-color: #444;       /* Dark gray background */
+    color: white;                 /* White text color */
+    border: none;                 /* Remove default border */
+    border-radius: 50%;           /* Circular button */
+    width: 50px;                  /* Width of the button */
+    height: 50px;                 /* Height of the button */
+    font-size: 24px;              /* Font size for the icon */
+    display: flex;                /* Flexbox to center the content */
+    align-items: center;          /* Vertically center content */
+    justify-content: center;      /* Horizontally center content */
+    cursor: pointer;             /* Pointer cursor on hover */
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.3); /* Shadow for raised effect */
+    transition: background-color 0.3s, transform 0.2s, box-shadow 0.2s; /* Smooth transitions */
+}
+
+#toggleFormButton:hover {
+    background-color: #555;       /* Lighter gray on hover */
+    transform: translateY(-2px);  /* Slightly raise the button on hover */
+    box-shadow: 0 6px 12px rgba(0, 0, 0, 0.4); /* Stronger shadow when hovered */
+}
+
+#toggleFormButton:active {
+    background-color: #333;       /* Even darker gray on click */
+    transform: translateY(1px);   /* Slightly lower when clicked */
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.3); /* Subtle shadow on active state */
+}
+
+
+#toggleFormButton:hover {
+    background-color: #404040; /* Darker green on hover */
+}
+
+        .business-hours {
+            text-align: center;
+            margin-top: 10px;
+            font-size: 16px;
+        }
+		
+
+.optional-notes-container {
+    overflow: hidden; /* Hide overflow */
+    white-space: nowrap; /* Prevent line breaks */
+    margin-left: -20px; /* Move left to touch the border */
+    margin-right: -20px; /* Move right to touch the border */
+    padding: 10px 0; /* Add padding to the top/bottom only */
+    position: relative; /* Relative positioning */
+    background-color: black;
+	opacity: 0.8;
+	color: white;
+}
+
+.optional-notes {
+    display: inline-block; /* Allow horizontal movement */
+    animation: slide-in-out 10s linear infinite; /* Apply the sliding animation */
+}
+
+.optional-notes-spacer {
+    display: inline-block; /* Allow horizontal movement */
+    width: 50% /* Adjust the width of the spacer as needed */
+}
+
+@keyframes slide-in-out {
+    0% {
+        transform: translateX(100%); /* Start from the right */
+    }
+    50% {
+        transform: translateX(0); /* Center */
+    }
+    100% {
+        transform: translateX(-100%); /* Move to the left */
+    }
+}
+
+.logo {
+    min-width: 100px; /* Minimum width of the logo */
+    max-width: 150px; /* Maximum width of the logo */
+    width: auto; /* Set width to auto to maintain aspect ratio */
+    height: 60px; /* Maintain aspect ratio */
+    min-height: 50px; /* Minimum height of the logo */
+    transform: translateX(-50%); /* Offset by half of its width */
+	margin-left: 50%;
+    z-index: 0; /* Stack order */
+    object-fit: contain; /* Ensure the image fits within the bounds without stretching */
+}
+
+
+.section {
+    position: relative;
+    margin: auto;
+    min-height: 300px; /* Set a minimum height for all sections */
+	height:90%;
+	max-height: 500px;
+	min-width: 110px;
+	width: 90%;
+	max-width: 450px;
+    background: white;
+    padding: 20px;
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+	border-radius: 8px;
+}
+
+        .moving-glow:before, .moving-glow:after {
+            content: '';
+            position: absolute;
+            left: -5px;
+            top: -5px;
+            background: linear-gradient(45deg, #ffadad, #ffd6a5, #fdffb6, #e4ffbb, #caffbf, #9bf6ff, #a0c4ff, #bdb2ff, #ffc6ff, #ffe3ff);
+            background-size: 400%;
+            width: calc(100% + 10px);
+            height: calc(100% + 10px);
+            z-index: -1;
+            animation: anim-moving-glow 20s linear infinite;
+			border-radius:8px;
+        }
+
+        @keyframes anim-moving-glow {
+            0% {
+                background-position: 0 0;
+            }
+            50% {
+                background-position: 400% 0;
+            }
+            100% {
+                background-position: 0 0;
+            }
+        }
+
+        .moving-glow:after {
+            filter: blur(10px);
+        }
+
+
+
+
+.form-section {
+    margin-top: 20px; /* Space above the form section */
+    padding: 10px; /* Padding inside the form section */
+    background-color: #f9f9f9; /* Light gray background for the form */
+    border: 1px solid #ddd; /* Light border */
+    border-radius: 4px; /* Rounded corners */
+}
+
+.form-section button {
+    margin-top: 10px;
+    background-color: #444;         /* Dark gray background */
+    color: white;                   /* White text for contrast */
+    border: none;                   /* Remove default border */
+    border-radius: 8px;             /* Rounded corners for a modern look */
+    font-size: 16px;                /* Font size for readability */
+    padding: 10px 20px;             /* Padding for top/bottom and left/right */
+    cursor: pointer;               /* Pointer cursor on hover */
+    transition: background-color 0.3s, transform 0.2s, box-shadow 0.2s; /* Smooth transitions */
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2); /* Shadow for a raised effect */
+}
+
+.form-section button:hover {
+    background-color: #555;         /* Lighter gray on hover */
+    transform: translateY(-2px);    /* Slightly raise the button on hover */
+    box-shadow: 0 6px 12px rgba(0, 0, 0, 0.3); /* Stronger shadow on hover */
+}
+
+.form-section button:active {
+    background-color: #333;         /* Even darker gray when clicked */
+    transform: translateY(1px);     /* Slightly lower when clicked */
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2); /* Subtle shadow on active state */
+}
+
+
+.section select, input[type="text"], input[type="time"] {
+margin-top: 10px;
+    width: 10%; /* Full width */
+	min-width: 200px;
+	min-height: 20px;
+    padding: 5px; /* Padding inside the input */
+    box-sizing: border-box; /* Include padding and border in width */
+    background-color: #333;        /* Dark gray background */
+    color: #fff;                   /* White text color for contrast */
+    border-radius: 8px;            /* Rounded corners */
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.3); /* Shadow for raised effect */
+    padding: 10px 10px;               /* Vertical padding for content spacing */
+    transition: opacity 0.3s ease, visibility 0.3s ease; /* Smooth transition */
+}
+
+.form-section select, input[type="text"], input[type="time"] {
+margin-top: 10px;
+margin-right:20px;
+    width: 10%; /* Full width */
+	min-width: 200px;
+	min-height: 20px;
+    padding: 5px; /* Padding inside the input */
+    border: 1px solid #ccc; /* Light gray border */
+    border-radius: 4px; /* Rounded corners */
+    box-sizing: border-box; /* Include padding and border in width */
+}
+
+.logo-placeholder {
+    display: flex;               /* Enable flexbox for centering */
+    align-items: center;         /* Vertically center content */
+    justify-content: center;     /* Horizontally center content */
+    color: white;                 /* Dark text color for high readability */
+    font-size: 32px;             /* Adjust font size for the title */
+    font-weight: bold;           /* Make the title bold */
+    text-align: center;          /* Center-align text */
+    min-width: 20%;            /* Minimum width for responsive behavior */
+    min-height: 50px;            /* Minimum height for responsiveness */
+    overflow: hidden;            /* Prevent text overflow */
+    text-transform: uppercase;   /* Optional: Make text uppercase for a professional look */
+	 text-shadow: 2px 2px 4px black;
+}
+
+
+.color-picker {
+    margin-top: 18px;
+	margin-right:20px;
+    -webkit-appearance: none;        /* Remove default styling in WebKit browsers */
+    appearance: none;                /* Remove default styling */
+    width: 100px;                    /* Set width */
+    height: 36px;                    /* Set height */
+    border: 2px solid #444;         /* Dark gray border for consistency */
+    border-radius: 3px;              /* Rounded corners for a modern look */
+    cursor: pointer;                /* Change cursor to pointer */
+    outline: none;                   /* Remove outline */
+    position: relative;
+    top: -7px;
+    background-color: #222;          /* Dark background for the color input */
+    transition: border-color 0.3s, box-shadow 0.2s; /* Smooth transitions */
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2); /* Subtle shadow for raised effect */
+}
+
+/* Custom style for the color input swatch */
+.color-picker::-webkit-color-swatch {
+    border: none;                   /* Remove border from the swatch */
+    border-radius: 3px;              /* Rounded corners for the swatch */
+}
+
+.color-picker::-moz-color-swatch {
+    border: none;                   /* Remove border from the swatch */
+    border-radius: 3px;              /* Rounded corners for the swatch */
+}
+
+/* Hover effect */
+.color-picker:hover {
+    border-color: #555;             /* Lighter border on hover */
+    box-shadow: 0 6px 12px rgba(0, 0, 0, 0.3); /* Stronger shadow on hover */
+}
+
+/* Focus effect */
+.color-picker:focus {
+    border-color: #333;             /* Darker border on focus */
+    box-shadow: 0 0 5px rgba(0, 0, 0, 0.3); /* Light shadow on focus */
+}
+
+
+.save-button {
+    margin-top: 10px;
+    height: 36px;
+    background-color: #444;         /* Dark gray background */
+    color: white;                   /* White text for contrast */
+    border: none;                   /* Remove default border */
+    border-radius: 8px;             /* Rounded corners for a more modern look */
+    padding: 10px 20px;             /* Padding for top/bottom and left/right */
+    font-size: 16px;                /* Font size for readability */
+    cursor: pointer;               /* Pointer cursor on hover */
+    transition: background-color 0.3s, transform 0.2s, box-shadow 0.2s; /* Smooth transitions */
+    position: relative;
+    top: -12px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2); /* Slight shadow for a raised effect */
+}
+
+.save-button:hover {
+    background-color: #555;         /* Lighter gray on hover */
+    transform: translateY(-2px);    /* Slightly raise the button on hover */
+    box-shadow: 0 6px 12px rgba(0, 0, 0, 0.3); /* Stronger shadow when hovered */
+}
+
+.save-button:active {
+    background-color: #333;         /* Even darker gray when clicked */
+    transform: translateY(1px);     /* Slightly lower when clicked */
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2); /* Less shadow on active state */
+}
+
+
+/* Style for the title input */
+.title-input {
+margin-right:20px;
+    margin-top: 15px;
+    height: 32px;                      /* Increase height for better alignment */
+    border: 2px solid #444;            /* Dark gray border for consistency */
+    border-radius: 8px;                /* Rounded corners for a modern look */
+    font-size: 16px;                   /* Font size */
+    color: #eee;                       /* Light text color for contrast */
+    background-color: #222;            /* Dark background */
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2); /* Subtle shadow for raised effect */
+    padding: 0px 12px;                 /* Padding for text */
+    transition: border-color 0.3s, box-shadow 0.3s; /* Smooth transition for border and shadow */
+    overflow: hidden;                  /* Prevent text overflow */
+}
+
+/* Focus effect */
+.title-input:focus {
+    border-color: #4CAF50;             /* Green border on focus */
+    box-shadow: 0 0 5px rgba(76, 175, 80, 0.5); /* Green shadow on focus */
+    outline: none;                     /* Remove default outline */
+}
+
+/* Optional: Add a placeholder style */
+.title-input::placeholder {
+    color: #aaa;                       /* Light gray placeholder text */
+    opacity: 1;                         /* Ensure full opacity */
+}
+
+/* Hover effect (optional) */
+.title-input:hover {
+    border-color: #555;                /* Darker border on hover */
+    box-shadow: 0 6px 12px rgba(0, 0, 0, 0.3); /* Stronger shadow on hover */
+}
+
+/* Style for the notes textarea */
+.notes-input {
+    margin-top: 15px;
+	margin-right:20px;
+    width: 50%;                          /* Full width */
+    height: 28px;                       /* Set a fixed height for the textarea */
+    border: 2px solid #444;              /* Dark gray border for consistency */
+    border-radius: 3px;                  /* Rounded corners */
+    font-size: 12px;                     /* Font size */
+    color: #eee;                         /* Light text color for contrast */
+    background-color: #222;              /* Dark background */
+    padding: 2px;                       /* Padding inside the textarea */
+    resize: vertical;                    /* Allow vertical resizing */
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2); /* Subtle shadow for raised effect */
+    transition: border-color 0.3s, box-shadow 0.3s; /* Smooth transition for border and shadow */
+    overflow: hidden;                    /* Prevent text overflow */
+}
+
+/* Focus effect */
+.notes-input:focus {
+    border-color: #4CAF50;               /* Green border on focus */
+    box-shadow: 0 0 5px rgba(76, 175, 80, 0.5); /* Green shadow on focus */
+    outline: none;                       /* Remove default outline */
+}
+
+/* Optional: Add a placeholder style */
+.notes-input::placeholder {
+    color: #aaa;                         /* Light gray placeholder text */
+    opacity: 1;                           /* Ensure full opacity */
+}
+
+/* Hover effect */
+.notes-input:hover {
+    border-color: #555;                  /* Darker border on hover */
+    box-shadow: 0 6px 12px rgba(0, 0, 0, 0.3); /* Stronger shadow on hover */
+}
+
+    </style>
+</head>
+<body>
+    <div class="container">
+	
+
+        <h1>Business Hours Dashboard</h1>
+    <select id="gridLayout">
+        <option value="3">3 Columns</option>
+        <option value="4">4 Columns</option>
+        <option value="5">5 Columns</option>
+    </select>
+        <div id="dashboard" class="dashboard"></div>
+        
+        <div id="floatingForm" class="form-section">
+            <input type="text" id="clientTitle" placeholder="Client Title" required>
+			
+<input type="text" id="logoUrl" placeholder="Logo URL (optional)">
+
+           
+            <select id="timezone"></select>
+
+			<label>BH Start Time</label>
+            <input type="time" id="businessStart" required>
+            <label>BH End Time</label>
+           
+            <input type="time" id="businessEnd" required>
+            <button id="addSection">Add Clock</button>
+        </div>
+        
+        <button id="toggleFormButton">+</button>
+    </div>
+
+    <script>
+	
+	const gifUrls = [
+	'https://s13.gifyu.com/images/SJCGb.gif',
+'https://s7.gifyu.com/images/SJCGM.gif',
+'https://s13.gifyu.com/images/SJCGL.gif',
+'https://s13.gifyu.com/images/SJCGA.gif',
+'https://s13.gifyu.com/images/SJCGB.gif',
+'https://s7.gifyu.com/images/SJCGU.gif',
+'https://s7.gifyu.com/images/SJCGF.gif',
+'https://s13.gifyu.com/images/SJCGx.gif',
+'https://s13.gifyu.com/images/SJCGH.gif',
+    // Add more GIF URLs as needed
+];
+
+        const timezones = {        
+            "AEST-00:30": "Adelaide",
+            "AEST+00:00": "Melbourne/Sydney/Canberra",
+            "AEST+01:00": "Micronesia",
+            "AEST+02:00": "Auckland",
+            "AEST+03:00": "Honolulu",
+            "AEST+04:00": "Fairbanks",
+            "AEST+05:00": "Juneau",
+            "AEST+06:00": "Seattle",
+            "AEST+07:00": "Phoenix",
+            "AEST+08:00": "Mexico City",
+            "AEST+09:00": "Washington",
+            "AEST+10:00": "Georgetown",
+            "AEST+11:00": "Rio",
+            "AEST+12:00": "King Edward Point",
+            "AEST+13:00": "Dakar",
+            "AEST+14:00": "Lisbon",
+            "AEST+15:00": "Berlin",
+            "AEST+16:00": "Athens",
+            "AEST+17:00": "Istanbul",
+            "AEST+18:00": "Dubai",
+            "AEST+19:00": "Karachi",
+            "AEST+19:30": "Mumbai",
+            "AEST+20:00": "Dhaka",
+            "AEST+21:00": "Bangkok",
+            "AEST+21:30": "Inner WA",
+            "AEST+22:00": "Perth",
+            "AEST+23:00": "Tokyo",
+            "AEST+23:30": "Alice Springs",
+        };
+
+        const timezoneSelect = document.getElementById('timezone');
+        Object.keys(timezones).forEach(tz => {
+            const option = document.createElement('option');
+            option.value = tz;
+            option.textContent = `${tz} (${timezones[tz]})`;
+            timezoneSelect.appendChild(option);
+        });
+
+        document.addEventListener('DOMContentLoaded', () => {
+    const existingSections = JSON.parse(localStorage.getItem('clientSections')) || [];
+    existingSections.forEach(sectionData => {
+        addSectionToDashboard(sectionData.clientTitle, sectionData.timezone, sectionData.businessStart, sectionData.businessEnd, sectionData.optionalNotes, sectionData.backgroundColor, sectionData.logoUrl); // Pass logoUrl
+    });
+});
+
+       document.getElementById('addSection').addEventListener('click', () => {
+    const clientTitle = document.getElementById('clientTitle').value;
+    const selectedTimezone = timezoneSelect.value;
+    const businessStart = document.getElementById('businessStart').value;
+    const businessEnd = document.getElementById('businessEnd').value;
+    const logoUrl = document.getElementById('logoUrl').value; // Get the logo URL from the input
+
+    if (clientTitle && selectedTimezone && businessStart && businessEnd) {
+        addSectionToDashboard(clientTitle, selectedTimezone, businessStart, businessEnd, '', '', logoUrl); // Pass logoUrl to the function
+        saveSectionsToLocalStorage();
+        clearForm();
+    } else {
+        alert("Please fill in all fields.");
+    }
+});
+
+
+
+    function addSectionToDashboard(clientTitle, timezone, businessStart, businessEnd, optionalNotes, backgroundColor = 'white', logoUrl = '') {
+    const dashboard = document.getElementById('dashboard');
+    const section = document.createElement('div');
+    section.classList.add('section');
+    section.style.backgroundColor = backgroundColor;
+
+    const titleElement = document.createElement('h2');
+    titleElement.textContent = clientTitle;
+
+	 // Conditionally add logo if a URL is provided
+	 const logoElement = document.createElement('img');
+    if (logoUrl) {   
+    logoElement.src = logoUrl;
+    logoElement.alt = `${clientTitle}`;
+    logoElement.classList.add('logo');
+    section.appendChild(logoElement);
+} else {
+    const titlePlaceholder = document.createElement('div');
+    titlePlaceholder.textContent = clientTitle;
+    titlePlaceholder.classList.add('logo-placeholder'); // Apply the placeholder-specific class
+    section.appendChild(titlePlaceholder);
+}
+
+   
+
+    const analogClock = document.createElement('div');
+    analogClock.classList.add('analog-clock');
+    analogClock.dataset.timezone = timezone;
+
+    // Assign a specific GIF URL to the section
+    const gifUrl = gifUrls[dashboard.children.length % gifUrls.length];
+    analogClock.dataset.gifUrl = gifUrl;
+
+    const digitalClock = document.createElement('div');
+    digitalClock.classList.add('digital-clock');
+
+    const businessHoursDisplay = document.createElement('div');
+    businessHoursDisplay.classList.add('business-hours');
+
+    // Marquee Notes Container
+    const notesContainer = document.createElement('div');
+    notesContainer.classList.add('optional-notes-container');
+
+    const notesDisplay1 = document.createElement('div');
+    notesDisplay1.classList.add('optional-notes');
+    notesDisplay1.textContent = optionalNotes || ''; // First note
+
+    const spacer1 = document.createElement('div');
+    spacer1.classList.add('optional-notes-spacer'); // Spacer
+
+    const notesDisplay2 = document.createElement('div');
+    notesDisplay2.classList.add('optional-notes');
+    notesDisplay2.textContent = optionalNotes || ''; // Second note
+
+    // Append notes and spacers
+    notesContainer.appendChild(notesDisplay1);
+    notesContainer.appendChild(spacer1);
+    notesContainer.appendChild(notesDisplay2);
+
+    const deleteButton = document.createElement('button');
+    deleteButton.classList.add('delete-button');
+    deleteButton.innerHTML = '<i class="fas fa-times"></i>';
+    deleteButton.onclick = () => {
+        dashboard.removeChild(section);
+        saveSectionsToLocalStorage();
+    };
+
+    const editButton = document.createElement('button');
+    editButton.classList.add('edit-button');
+    editButton.innerHTML = '<i class="fas fa-cog"></i>';
+    editButton.onclick = () => {
+        toggleEditMode(section, titleElement, timezone, businessStart, businessEnd, optionalNotes);
+    };
+
+    section.appendChild(titleElement);
+    section.appendChild(logoElement);
+    section.appendChild(analogClock);
+    section.appendChild(digitalClock);
+    section.appendChild(businessHoursDisplay);
+    section.appendChild(deleteButton);
+    section.appendChild(editButton); // Append the edit button
+    section.appendChild(notesContainer); // Append the marquee notes container
+    dashboard.appendChild(section);
+
+    updateClocks(analogClock, digitalClock, businessHoursDisplay, timezone, businessStart, businessEnd, optionalNotes);
+}
+
+
+    function toggleEditMode(section, titleElement, timezone, businessStart, businessEnd, optionalNotes) {
+    const isEditing = section.classList.toggle('editing');
+    
+    const editButton = section.querySelector('.edit-button');
+
+    if (isEditing) {
+        titleElement.style.display = 'none';				
+
+        const titleInput = document.createElement('input');
+		titleInput.className = 'title-input'; // Add the class for styling
+        titleInput.value = titleElement.textContent;
+
+        const timezoneSelect = document.createElement('select');
+        Object.keys(timezones).forEach(tz => {
+            const option = document.createElement('option');
+            option.value = tz;
+            option.textContent = `${tz} (${timezones[tz]})`;
+            if (tz === timezone) option.selected = true;
+            timezoneSelect.appendChild(option);
+        });
+
+        const businessStartInput = document.createElement('input');
+        businessStartInput.type = 'time';
+        businessStartInput.value = businessStart;
+
+        const businessEndInput = document.createElement('input');
+        businessEndInput.type = 'time';
+        businessEndInput.value = businessEnd;
+
+        // New input field for optional notes
+        const notesInput = document.createElement('textarea');
+notesInput.classList.add('notes-input');
+notesInput.placeholder = 'Optional Notes';
+notesInput.value = optionalNotes || ''; // Set existing notes if available
+
+
+        // New input field for color picker
+        const colorPicker = document.createElement('input');
+		colorPicker.type = 'color';
+		colorPicker.className = 'color-picker'; // Add the class for styling
+		colorPicker.value = rgbToHex(getComputedStyle(section).backgroundColor);
+
+        const saveButton = document.createElement('button');
+		saveButton.className = 'save-button'; // Add the class for styling
+        saveButton.textContent = 'Save';
+        saveButton.onclick = () => {
+            const newTitle = titleInput.value;
+            const newTimezone = timezoneSelect.value;
+            const newBusinessStart = businessStartInput.value;
+            const newBusinessEnd = businessEndInput.value;
+            const newOptionalNotes = notesInput.value; // Get the value from notes input
+            const newColor = colorPicker.value; // Get the selected color
+
+            titleElement.textContent = newTitle;
+            section.querySelector('.analog-clock').dataset.timezone = newTimezone;
+
+            // Change the background color of the section
+            section.style.backgroundColor = newColor;
+
+            // Remove the input elements
+            section.removeChild(titleInput);
+            section.removeChild(timezoneSelect);
+            section.removeChild(businessStartInput);
+            section.removeChild(businessEndInput);
+            section.removeChild(notesInput); // Remove notes input
+            section.removeChild(colorPicker); // Remove color picker
+            section.removeChild(saveButton);
+
+            titleElement.style.display = 'block';
+
+            // Update the clocks with the new values
+            updateClocks(section.querySelector('.analog-clock'), section.querySelector('.digital-clock'), section.querySelector('.business-hours'), newTimezone, newBusinessStart, newBusinessEnd, newOptionalNotes);
+            
+            // Save updated sections to local storage
+            saveSectionsToLocalStorage();
+
+            // Update the optional notes in the section
+const notesDisplay = section.querySelector('.optional-notes');
+if (notesDisplay) {
+    notesDisplay.textContent = newOptionalNotes ? `${newOptionalNotes}` : '';
+	saveSectionsToLocalStorage();
+} else {
+    const newNotesDisplay = document.createElement('div');
+    newNotesDisplay.classList.add('optional-notes');
+    newNotesDisplay.textContent = newOptionalNotes ? `${newOptionalNotes}` : '';
+    section.appendChild(newNotesDisplay);
+	saveSectionsToLocalStorage();
+}
+
+// Update the marquee notes
+const marqueeNotesDisplay = section.querySelectorAll('.optional-notes')[1];
+if (marqueeNotesDisplay) {
+    marqueeNotesDisplay.textContent = newOptionalNotes ? `${newOptionalNotes}` : '';
+} else {
+    const newMarqueeNotesDisplay = document.createElement('div');
+    newMarqueeNotesDisplay.classList.add('optional-notes');
+    newMarqueeNotesDisplay.classList.add('optional-notes-marquee'); // Add a class for marquee styling if needed
+    newMarqueeNotesDisplay.textContent = newOptionalNotes ? `${newOptionalNotes}` : '';
+    section.appendChild(newMarqueeNotesDisplay);
+}
+
+           
+
+            // Change the edit button back to "E"
+            editButton.innerHTML = '<i class="fas fa-cog"></i>';
+        };
+
+        section.appendChild(titleInput);
+        section.appendChild(timezoneSelect);
+        section .appendChild(businessStartInput);
+        section.appendChild(businessEndInput);
+        section.appendChild(notesInput); // Append notes input
+        section.appendChild(colorPicker); // Append color picker
+        section.appendChild(saveButton);
+
+        // Change the edit button to a close button
+        editButton.textContent = '✖';
+    } else {
+        const inputs = section.querySelectorAll('input, select, textarea');
+        inputs.forEach(input => section.removeChild(input));
+
+        const saveButton = Array.from(section.children).find(child => child.textContent === 'Save');
+        if (saveButton) {
+            section.removeChild(saveButton);
+        }
+
+        editButton.innerHTML = '<i class="fas fa-cog"></i>';
+        titleElement.style.display = 'block';
+    }
+}
+
+// Helper function to convert RGB to HEX
+function rgbToHex(rgb) {
+    const result = rgb.match(/\d+/g);
+    return result ? `#${((1 << 24) + (result[0] << 16) + (result[1] << 8) + +result[2]).toString(16).slice(1)}` : '# 000000';
+}
+
+function updateClocks(analogClock, digitalClock, businessHoursDisplay, timezone, businessStart, businessEnd, optionalNotes) {
+    // Clear previous timeout if any
+    if (analogClock.updateTimeout) {
+        clearTimeout(analogClock.updateTimeout);
+    }
+
+    const now = new Date();
+    const localTime = getLocalTime(now, timezone);
+
+    updateAnalogClock(analogClock, localTime);
+    updateDigitalClock(digitalClock, localTime);
+    updateBusinessHoursDisplay(businessHoursDisplay, businessStart, businessEnd);
+
+    const isInBusinessHours = checkBusinessHours(localTime, businessStart, businessEnd);
+    applyBusinessHoursEffect(analogClock, isInBusinessHours);
+
+    // Set a new timeout for the next update
+    analogClock.updateTimeout = setTimeout(() => updateClocks(analogClock, digitalClock, businessHoursDisplay, timezone, businessStart, businessEnd, optionalNotes), 1000);
+}
+
+
+
+function getLocalTime(now, timezone) {
+    const offset = timezone.match(/AEST([+-]\d{1,2}):?(\d{0,2})/);
+    if (offset) {
+        const hoursOffset = parseInt(offset[1]);
+        const minutesOffset = offset[2] ? parseInt(offset[2]) : 0;
+        return new Date(now.getTime() + (hoursOffset * 60 * 60 * 1000) + (minutesOffset * 60 * 1000) - (30 * 60 * 1000));
+    }
+    return now;
+}
+
+function updateAnalogClock(analogClock, localTime) {
+    analogClock.innerHTML = '';
+
+    const hours = localTime.getHours() % 12;
+    const minutes = localTime.getMinutes();
+    const hourDeg = (hours + minutes / 60) * 30;
+    const minuteDeg = minutes * 6;
+
+    const hourHand = document.createElement('div');
+    hourHand.classList.add('hour');
+    hourHand.style.transform = `translateX(-50%) rotate(${hourDeg}deg)`;
+    analogClock.appendChild(hourHand);
+
+    const minuteHand = document.createElement('div');
+    minuteHand.classList.add('minute');
+    minuteHand.style.transform = `translateX(-50%) rotate(${minuteDeg}deg)`;
+    analogClock.appendChild(minuteHand);
+
+    const numbers = [12, 3, 6, 9];
+    numbers.forEach(number => {
+        const numberElement = document.createElement('div');
+        numberElement.classList.add('number');
+        numberElement.id = `number-${number}`;
+        numberElement.textContent = number;
+        analogClock.appendChild(numberElement);
+    });
+}
+
+function updateDigitalClock(digitalClock, localTime) {
+    const formattedTime = localTime.toLocaleTimeString([], { hour: '2-digit', minute: '2-digit', second: '2-digit', hour12: false });
+    digitalClock.textContent = formattedTime;
+}
+
+function updateBusinessHoursDisplay(businessHoursDisplay, businessStart, businessEnd) {
+    businessHoursDisplay.textContent = `BH: ${businessStart} - ${businessEnd}`;
+}
+
+function checkBusinessHours(localTime, businessStart, businessEnd) {
+    const [startHour, startMinute] = businessStart.split(':').map(Number);
+    const [endHour, endMinute] = businessEnd.split(':').map(Number);
+
+    const businessStartTime = new Date(localTime);
+    businessStartTime.setHours(startHour, startMinute, 0, 0);
+
+    const businessEndTime = new Date(localTime);
+    businessEndTime.setHours(endHour, endMinute, 0, 0);
+
+    return localTime >= businessStartTime && localTime <= businessEndTime;
+}
+
+
+let currentGifIndex = 0; // To keep track of the current GIF index
+
+function getNextGifUrl() {
+    const gifUrl = gifUrls[currentGifIndex];
+    currentGifIndex = (currentGifIndex + 1) % gifUrls.length; // Cycle through the array
+    return gifUrl;
+}
+
+function applyBusinessHoursEffect(analogClock, isInBusinessHours) { 
+    const section = analogClock.closest('.section'); 
+
+    if (isInBusinessHours) { 
+        // Use the assigned GIF URL for this section
+        const gifUrl = analogClock.dataset.gifUrl;
+        analogClock.style.backgroundImage = `url('${gifUrl}')`;
+        analogClock.style.backgroundPosition = "center"; 
+        analogClock.style.backgroundSize = 'cover';		
+        section.classList.add('moving-glow'); 
+    } else { 
+        analogClock.style.background = "white"; 
+        section.classList.remove('moving-glow'); 
+    } 
+}
+
+       function saveSectionsToLocalStorage() {
+    const sections = [];
+    document.querySelectorAll('.section').forEach(section => {
+        const title = section.querySelector('h2').textContent;
+        const timezone = section.querySelector('.analog-clock').dataset.timezone;
+        const businessStart = section.querySelector('.business-hours').textContent.split(' - ')[0].split(': ')[1];
+        const businessEnd = section.querySelector('.business-hours').textContent.split(' - ')[1];
+        const optionalNotes = section.querySelector('.optional-notes') ? section.querySelector('.optional-notes').textContent.replace('Notes: ', '') : '';
+        const backgroundColor = getComputedStyle(section).backgroundColor; // Get the background color
+		const logoUrl = section.querySelector('img') ? section.querySelector('img').src : ''; // Get the logo URL
+        sections.push({ clientTitle: title, timezone, businessStart, businessEnd, optionalNotes, backgroundColor, logoUrl }); // Save the color
+    });
+    localStorage.setItem('clientSections', JSON.stringify(sections));
+}
+
+        function clearForm() {
+            document.getElementById('clientTitle').value = '';
+            document.getElementById('businessStart').value = '';
+            document.getElementById('businessEnd').value = '';
+            timezoneSelect.selectedIndex = 0; // Reset to first option
+        }
+
+        document.getElementById('toggleFormButton').addEventListener('click', () => {
+            const form = document.getElementById('floatingForm');
+            form.style.display = form.style.display === 'none' || form.style.display === '' ? 'block' : 'none';
+        });
+		
+		document.getElementById('gridLayout').addEventListener('change', function() {
+    const columnCount = this.value; // Get the selected number of columns
+    const dashboard = document.getElementById('dashboard');
+    dashboard.style.gridTemplateColumns = `repeat(${columnCount}, 1fr)`; // Update the grid template
+});
+    </script>
+</body>
+</html>
